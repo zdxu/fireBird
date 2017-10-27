@@ -1,0 +1,59 @@
+subprojects {
+    group 'com.zdxu'
+    version '1.0-SNAPSHOT'
+    buildscript {
+        ext.kotlin_version = '1.0.5'
+        ext.springBootVersion = '1.5.6.RELEASE'
+        ext.gsonVersion = '2.8.0'
+    }
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        maven{
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+        mavenCentral()
+
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+        compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
+
+        testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    }
+
+    def env = System.getProperty("env", "develop")
+    sourceSets {
+        main {
+            java {
+                srcDirs = ["src/main/java"]
+            }
+            resources {
+                srcDirs = ["src/main/resource/$env", "webapp"]
+            }
+        }
+    }
+}
+
+
+project(":base") {
+
+    configurations {
+        compile.exclude module:"spring-boot-starter-web"
+    }
+
+
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+        compile group: 'com.alibaba', name: 'druid', version: '1.1.0'
+        compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+        compile group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+        compile "org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion"
+    }
+}
+
+apply from: 'gradle/init.gradle'

@@ -1,0 +1,111 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <!--<meta name="description" content="微分销系统" />-->
+    <!--<meta name="keywords" content="微分销系统" />-->
+    <title>微分销系统_多享出品</title>
+    <link rel="stylesheet" type="text/css" href="/css/shopcar.css" />
+    <script type="text/javascript" src="/js/auto-size.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.12.1.min.js"></script>
+	<script th:inline="JavaScript">
+		/*<![CDATA[*/
+        $(document).ready(function(){
+
+            $(".del").on("click",function(){
+                var value=$(this).attr("id");
+                var arr = value.split(":");
+                var goodsId = arr[0];
+                var price = arr[1];
+                removeGoods(this, goodsId, price)
+
+            });
+
+            function removeGoods(obj, goodsId, price) {
+                var shopId =  $("#shopId").val();
+                var orderId =  $("#orderId").val();
+                $.post("/shops/"+shopId+"/goods/"+goodsId+"/orderCancel",{orderId:orderId},function(result){
+                    if(result.flag == true) {
+                        $(obj).parent().parent().remove();
+                        js(price);
+                    }
+                });
+            }
+
+            function js(price){
+
+                var count = $("#js #zsl").text()
+                count = count -1
+                var num = $("#zj").text();
+                num = num - price;
+
+                $('#zj').html(num);
+                $('#zsl').html(count);
+            }
+            
+            $("#js").on("click", function () {
+                var count = $("#zsl").text();
+                if(count > 0) {
+                    var shopId =  $("#shopId").val();
+                    var orderId =  $("#orderId").val();
+                    $(location).attr('href', '/shops/'+shopId+'/'+'orders/'+orderId+'/confirm');
+				}
+            })
+
+        })
+		/*]]>*/
+	</script>
+</head>
+<body>
+	<input th:value="${shop.id}" type="hidden" id="shopId" />
+	<input th:value="${order.id}" type="hidden" id="orderId" />
+	<div class="fix_head">
+		<a href="javascript:history.go(-1);" class="back">
+			<img src="/images/back.jpg" />
+		</a>
+		<p>购物车</p>
+		<a th:href="@{/shops/{shopId}/tables/{tableTattedCode}/order(shopId = ${shop.id}, tableTattedCode = ${order.tableTattedCode})}" class="home">
+			<img src="/images/home.jpg" />
+		</a>
+	</div>
+	<div class="sc_h"></div>
+	<div th:each="goods, goodsStat:${goodsList}">
+		<div class="lb">
+			<img th:src="@{{imgUrl}(imgUrl = ${goods.imgUrl})}" class="spt" />
+			<div class="mid">
+				<p class="name" th:text="${goods.name}"></p>
+				<p class="color" th:text="${'分类:'+goods.categoryName}"></p>
+			</div>
+			<div class="jgq">
+				<div class="price"><p>￥<span class="pri" th:text="${goods.price}">10.00</span></p></div>
+				<img th:if="${order.status} == 0" src="/images/del.jpg" class="del" th:id="${goods.id+':'+goods.price}"/>
+			</div>
+		</div>
+	</div>
+
+	<div th:switch="${order.status}" class="bottom">
+		<div th:case="0" class="fix_bottom">
+			<div class="zjq">
+				<p class="p1">合计:￥
+					<span id="zj" th:text="${order.allPrice}"></span>
+				</p>
+			</div>
+			<a id="js">确认(<span id="zsl" th:text="${size}"></span>)</a>
+		</div>
+		<div th:case="*" class="fix_bottom">
+			<div class="zjq">
+				<p class="p1">合计:￥
+					<span id="zj" th:text="${order.allPrice}"></span>
+				</p>
+			</div>
+			<div id="ordered">已购(<span id="zsl" th:text="${size}"></span>)</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

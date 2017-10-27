@@ -1,0 +1,179 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+        <meta name="format-detection" content="email=no,address=no,telephone=no" />
+        <title>首页</title>
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <script src="/js/jquery-1.12.1.min.js"></script>
+        <script th:inline="JavaScript">
+            /*<![CDATA[*/
+            $(document).ready(function(){
+                var deviceWidth=$(window).outerWidth();
+                if(deviceWidth>640){
+                    $("html").css("font-size","100px");
+                }else{
+                    $("html").css("font-size",deviceWidth/640*100+'px');
+                }
+
+                $('body').on("click",'.heart',function()
+                {
+                    var A=$(this).attr("id");
+                    var B=A.split("like");
+                    var goodsId=B[1];
+                    //var C=parseInt($("#likeCount"+messageID).html());
+                    $(this).css("background-position","")
+                    var D=$(this).attr("rel");
+                    if(D === 'like')
+                    {
+                        addGoodsId(goodsId);
+                        //$("#likeCount"+messageID).html(1);
+                        $(this).addClass("heartAnimation").attr("rel","unlike");
+                    }
+                    else
+                    {
+                        removeGoodsId(goodsId)
+                        //$("#likeCount"+messageID).html();
+                        $(this).removeClass("heartAnimation").attr("rel","like");
+                        $(this).css("background-position","left");
+                    }
+
+
+                });
+            });
+
+            var addGoodsId = function(goodsId) {
+                var shopId =  $("#shopId").val();
+                var orderId =  $("#orderId").val();
+                $.post("/shops/"+shopId+"/goods/"+goodsId+"/orderAdd",{orderId:orderId},function(result){
+                });
+            }
+
+            var removeGoodsId = function(goodsId) {
+                var shopId =  $("#shopId").val();
+                var orderId =  $("#orderId").val();
+                $.post("/shops/"+shopId+"/goods/"+goodsId+"/orderCancel",{orderId:orderId},function(result){
+                });
+            }
+
+            function classifiedQuery(categoryId, categoryName) {
+                var shopId =  $("#shopId").val();
+                var orderId = $("#orderId").val();
+                $.post("/shops/"+shopId+"/search",{categoryId:categoryId, orderId:orderId},function(result){
+                    renderGoodsList(result.content, categoryName)
+                });
+            }
+
+            function searchByGoodsName(){
+                var shopId =  $("#shopId").val();
+                var orderId = $("#orderId").val();
+                var goodsName = $("input.search-text").val();
+                if(goodsName == "")
+                    alert("抱歉，本店暂未提供你要的菜品，您可以咨询下服务人员")
+                else
+                    $.post("/shops/"+shopId+"/search",{goodsName:goodsName, orderId:orderId},function(result){
+                        if(result.content.length > 0)
+                            renderGoodsList(result.content, null)
+                        else
+                            alert("抱歉，本店暂未提供你要的菜品，您可以咨询下服务人员")
+                    });
+            }
+
+            var renderGoodsList = function (goodsList, categoryName) {
+                var html = ""
+                if(categoryName == null)
+                    html += "<h2 class='home-title n'>搜索结果</h2>"
+                else
+                    html += " <h2 class='home-title n'>当前分类／<i>"+categoryName+"</i></h2>"
+                if(goodsList != null) {
+                    html += "<ul class='home-list hiden'>"
+                    for(var i = 0; i < goodsList.length; i++) {
+                        var goods = goodsList[i]
+
+                        html += "<li>"
+                        html +=     "<a>"
+                        html +=         "<img src='"+goods.imgUrl+"' />"
+                        html +=         "<h3 class='c6 s18'>"+goods.name+"</h3>"
+                        html +=         "<p class='c9 t_hide'>"+goods.description+"</p>"
+                        html +=     "</a>"
+                        html +=     "<div id=\"order\">"
+                        html +=         "<span class=\"font1 s18\">"+goods.price+"元</span>"
+                        html +=         "<div id=\"container\">"
+                        if(goods.isOrder == 0)
+                            html +=         "<div class=\"heart\" id=\"like"+goods.id+"\" rel=\"like\"></div>"
+                        else
+                            html +=         "<div id=\"like"+goods.id+"\" rel=\"unlike\" class=\"heart heartAnimation\"></div>"
+                        html +=             "<div class=\"likeCount\" id=\"likeCount"+goods.id+"\"></div>"
+                        html +=         "</div>"
+                        html +=     "</div>"
+                        html += "</li>"
+                    }
+                    html += "</ul>"
+                }
+                $("#goodsList").html(html);
+            }
+            /*]]>*/
+        </script>
+        <script src="/js/common.js"></script>
+    </head>
+
+    <body>
+        <!-- header start -->
+        <!--<header class="top">-->
+            <!--<div class="con">-->
+                <!--<h1>爱尚礼品</h1>-->
+            <!--</div>-->
+        <!--</header>-->
+        <!-- header end -->
+
+        <!-- content start -->
+        <input th:value="${shop.id}" type="hidden" id="shopId" />
+        <input th:value="${order == null ? null:order.id}" type="hidden" id="orderId" />
+        <section class="wrap">
+            <a><img src="/images/home-banner.jpg" class="home-banner" /></a>
+            <div class="search hiden">
+                <input type="text" placeholder="请输入您想要的商品" class="search-text" />
+                <input type="button" class="search-btn" onclick="searchByGoodsName()" />
+            </div>
+            <ul class="nav hiden">
+                <li th:each="category : ${categorys}"><a th:onclick="'javascript:classifiedQuery('+${category.id}+', \''+${category.name}+'\');'" th:text="${category.name}"></a></li>
+            </ul>
+            <div id="goodsList">
+                <h2 class="home-title n">当前推荐／<i>HOT-SALE PRODUCT</i></h2>
+                <ul class="home-list hiden">
+                    <li th:each="goods : ${goodsPage == null ? null : goodsPage.content}">
+                        <a>
+                            <img th:src="@{{imgUrl}(imgUrl=${goods.imgUrl})}" />
+                            <h3 class="c6 s18" th:text="${goods.name}"></h3>
+                            <p class="c9 t_hide" th:text="${goods.description}"></p>
+
+                        </a>
+                        <div id="order">
+                            <span class="font1 s18" th:text="${goods.price}+元"></span>
+                            <div id="container" th:switch="${goods.isOrder}">
+                                <div th:case="0" class="heart" th:id="like+${goods.id}" rel="like"></div>
+                                <div th:case="1" class="heart heartAnimation" th:id="like+${goods.id}" rel="unlike"></div>
+                                <div class="likeCount" th:id="likeCount+${goods.id}"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="活动-定制专场.html"><img src="/images/foot-banner.jpg" class="foot-banner" /></a>
+        </section>
+        <!-- content end -->
+
+        <!-- menu start -->
+        <div class="menu">
+            <ul class="con hiden">
+                <li class="menu-this"><a th:href="@{/shops/{shopId}/tables/{tableTattedCode}/order(shopId = ${shop.id}, tableTattedCode = ${order.tableTattedCode})}" class="menu-1">菜单</a></li>
+                <li><a th:href="@{/shops/{shopId}/orders/{orderId}(shopId = ${shop.id}, orderId = ${order.id})}" class="menu-2">已选菜品</a></li>
+                <li><a href="" class="menu-3">技术支持</a></li>
+            </ul>
+        </div>
+        <!-- menu end -->
+    </body>
+</html>

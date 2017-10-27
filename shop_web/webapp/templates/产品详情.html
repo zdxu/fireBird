@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="email=no,address=no,telephone=no">
+<title>产品详情</title>
+<link rel="stylesheet" href="css/common.css">
+<script src="js/jquery-1.12.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    var deviceWidth=$(window).outerWidth();
+	if(deviceWidth>640){
+    	$("html").css("font-size","100px");    	
+	}else{
+    	$("html").css("font-size",deviceWidth/640*100+'px');    	
+	}
+});
+</script>
+<script src="js/common.js"></script>
+</head>
+
+<body>
+<!-- header start -->
+<header class="top">
+	<div class="con">
+		<a href="" class="top-menu">菜单</a>	    	
+    	<a href="" class="top-car">购物车</a>
+        <h1>爱尚礼品</h1>
+    </div>
+</header>
+<!-- header end -->
+
+<!-- content start -->
+<section class="wrap">	
+    <div class="search hiden">
+    	<input type="text" placeholder="请输入您想要的商品" class="search-text">
+        <input type="button" class="search-btn" onclick="location.href='产品-筛选.html'">
+    </div> 
+    <div class="product-detail bf">
+    	<img src="photos/detail-1.jpg" class="detail-img">
+        <div class="detail-info">
+        	<h2 class="s18 n c6 hiden"><span>产品名称：</span><span>创意鹅卵石充电宝定制10400毫安通用小巧便携移动电源定制对不符合本</span></h2>
+        	<del class="b c9">市场价：103.50元</del>
+        	<p><b class="s24">￥69.00</b> /单价</p>
+        	<div class="detail-num">购买数量：<input type="text"><span><input type="button" class="num-add"><input type="button" class="num-reduce"></span>个</div>
+        	<input type="button" value="立即购买" class="btn-buy"><input type="button" value="加入购物车" class="btn-car">
+            <h3 class="detail-title n s18"><span>详情描述</span> | <span>商品咨询（10000）</span></h3>
+        </div>        
+        <div class="detail-con goods-con">
+        	<img src="photos/detail-2.jpg" style="width:5.34rem;">
+        </div>
+        <div class="detail-con goods-ask">
+        	<ul>
+            	<li>
+                	<h3 class="n c6 s18">怎么不出款可以充电的电池<span class="fr c9 s14">2016年5月18日</span></h3>
+                    <p class="c9">您好，官网下单的产品，单笔订单实际支付满150元包邮，订单实际支付金额不足150元，需按
+照10元/单标准支付邮费，小米电视、净水器、体重秤等产品因商品特殊性不参与满150元。</p>
+					<p class="c9 tr s15">2016年5月29日</p>
+                </li>
+                <li>
+                	<h3 class="n c6 s18 red">怎么不出款可以充电的电池<span class="fr c9 s14">2016年5月18日</span></h3>
+                    <p class="c9">您好，官网下单的产品，单笔订单实际支付满</p>
+					<p class="c9 tr s15">2016年5月29日</p>
+                </li>
+                <li>
+                	<h3 class="n c6 s18">怎么不出款可以充电的电池<span class="fr c9 s14">2016年5月18日</span></h3>
+                    <p class="c9">您好，官网下单的产品，单笔订单实际支付满</p>
+					<p class="c9 tr s15">2016年5月29日</p>
+                </li>
+            </ul>
+            <a href="" class="ask-all">查看所有商品咨询 ></a>	
+            <form class="ask-form s18">
+            	<h4 class="c6">商品咨询</h4>
+                <h5 class="c9 n">标题：创意鹅卵石充电宝定制10400毫安通用小巧便携移动电源定制</h5>
+                <p><label>咨询内容：</label><span><textarea></textarea></span></p>
+                <p><label>联系方式：</label><span><input type="text"><br><font class="c9 s12">（可以是电话，QQ，email，微信号等）</font></span></p>
+                <input type="button" value="提交咨询" class="ask-btn">
+            </form>
+        </div>
+    </div>    
+    <a href="活动-定制专场.html"><img src="images/foot-banner.jpg" class="foot-banner"></a>    
+</section>
+<!-- content end -->
+
+<!-- menu start -->
+<div class="menu">
+	<ul class="con hiden">
+    	<li class="menu-this"><a href="index.html" class="menu-1">首页</a></li>
+        <li><a href="" class="menu-2">地图导航</a></li>
+        <li><a href="" class="menu-3">信息咨询</a></li>
+        <li><a href="" class="menu-4">电话咨询</a></li>
+        <li><a href="" class="menu-5">会员中心</a></li>
+    </ul>
+</div>
+<!-- menu end -->
+</body>
+</html>

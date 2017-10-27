@@ -1,0 +1,29 @@
+#spring.mvc.view.prefix: /WEB-INF/jsp/
+#spring.mvc.view.suffix: .jsp
+
+#druid 数据源配置
+datasource:
+  driverClassName: "com.mysql.cj.jdbc.Driver"
+  url: "jdbc:mysql://39.108.64.32:3306/fireBird?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false"
+  username: 'root'
+  password: 'zdxu2014'
+  initialSize: 1
+  maxActive: 20
+  minIdle: 1
+  maxWait: 60000
+  validationQuery: 'SELECT 1'
+  testOnBorrow: false
+  testOnReturn: false
+  testWhileIdle: true
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  poolPreparedStatements: true
+  maxPoolPreparedStatementPerConnectionSize: 20
+  filters: stat
+
+#redis 配置
+redis:
+  host: "39.108.64.32"
+  port: 6379
+  password: "zdxu2014"
+  enable: true

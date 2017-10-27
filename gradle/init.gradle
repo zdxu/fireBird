@@ -1,0 +1,24 @@
+/**
+ * 该脚本用于开发时初始化项目
+ */
+task initProject() {
+    (project.subprojects.collect {
+        [
+                "${it.projectDir}/src/main/java/${it.group.replaceAll('\\.', '/')}",
+                "${it.projectDir}/src/test/java/${it.group.replaceAll('\\.', '/')}/test",
+                "${it.projectDir}/bin",
+                "${it.projectDir}/src/main/resource/develop/config",
+                "${it.projectDir}/src/main/resource/test/config",
+                "${it.projectDir}/src/main/resource/product/config",
+
+        ]
+    } ).flatten().each {
+        file(it).mkdirs()
+    }
+}
+
+//+ [
+//        "${it.projectDir}/src/main/java/${rootProject.group.replaceAll('\\.', '/')}",
+//        "${it.projectDir}/src/test/java/${rootProject.group.replaceAll('\\.', '/')}/test",
+//
+//]

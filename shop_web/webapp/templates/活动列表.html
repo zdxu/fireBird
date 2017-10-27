@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="email=no,address=no,telephone=no">
+<title>活动列表</title>
+<link rel="stylesheet" href="css/common.css">
+<script src="js/jquery-1.12.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    var deviceWidth=$(window).outerWidth();
+	if(deviceWidth>640){
+    	$("html").css("font-size","100px");    	
+	}else{
+    	$("html").css("font-size",deviceWidth/640*100+'px');    	
+	}
+});
+</script>
+<script src="js/common.js"></script>
+</head>
+
+<body>
+<!-- header start -->
+<header class="top">
+	<div class="con">
+		<a href="" class="top-menu">菜单</a>	    	
+    	<a href="" class="top-car">购物车</a>
+        <h1>爱尚礼品</h1>
+    </div>
+</header>
+<!-- header end -->
+
+<!-- content start -->
+<section class="wrap">	
+    <div class="search hiden">
+    	<input type="text" placeholder="请输入您想要的商品" class="search-text">
+        <input type="button" class="search-btn" onclick="location.href='产品-筛选.html'">
+    </div>
+    <ul class="sales-list hiden">    	
+        <li>
+        	<a href="活动详情-自定义.html">
+            	<img src="photos/list-img1.jpg">
+                <h3 class="n t_hide">企业个性化定制</h3>
+                <p class="c9 t_hide">企业宣传/客户回馈/节日福利/员工关怀</p>
+                <input type="button" value="入场抢购" class="sales-in">
+            </a>
+        </li>
+        <li>
+        	<a href="javascript:void(0)">
+            	<img src="photos/list-img2.jpg">
+                <h3 class="n t_hide">企业个性化定制</h3>
+                <p class="c9 t_hide">企业宣传/客户回馈/节日福利/员工关怀</p>
+                <input type="button" value="活动结束" class="sales-over">
+            </a>
+        </li>
+        <li>
+        	<a href="活动详情-自定义.html">
+            	<img src="photos/list-img1.jpg">
+                <h3 class="n t_hide">企业个性化定制</h3>
+                <p class="c9 t_hide">企业宣传/客户回馈/节日福利/员工关怀</p>
+                <input type="button" value="入场抢购" class="sales-in">
+            </a>
+        </li>
+        <li>
+        	<a href="javascript:void(0)">
+            	<img src="photos/list-img2.jpg">
+                <h3 class="n t_hide">企业个性化定制</h3>
+                <p class="c9 t_hide">企业宣传/客户回馈/节日福利/员工关怀</p>
+                <input type="button" value="活动结束" class="sales-over">
+            </a>
+        </li>
+    </ul>    
+    <a href="活动-定制专场.html"><img src="images/foot-banner.jpg" class="foot-banner"></a>    
+</section>
+<!-- content end -->
+
+<!-- menu start -->
+<div class="menu">
+	<ul class="con hiden">
+    	<li class="menu-this"><a href="index.html" class="menu-1">首页</a></li>
+        <li><a href="" class="menu-2">地图导航</a></li>
+        <li><a href="" class="menu-3">信息咨询</a></li>
+        <li><a href="" class="menu-4">电话咨询</a></li>
+        <li><a href="" class="menu-5">会员中心</a></li>
+    </ul>
+</div>
+<!-- menu end -->
+</body>
+</html>
